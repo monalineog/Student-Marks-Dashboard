@@ -8,24 +8,6 @@ st.set_page_config(
     layout="centered"
 )
 
-# ---------- CUSTOM STYLING ----------
-st.markdown("""
-    <style>
-        .main {
-            background-color: #f5f7fa;
-        }
-        h1, h2, h3 {
-            color: #333333;
-        }
-        .stMetric {
-            background: #ffffff;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-    </style>
-""", unsafe_allow_html=True)
-
 # ---------- APP TITLE ----------
 st.title("📘 Student Marks Dashboard")
 st.markdown("Add students and analyze their performance with class insights.")
@@ -80,25 +62,4 @@ if not df.empty:
 
     # ---------- CLASS STATS ----------
     class_avg = round(df["Percentage"].mean(), 2)
-    highest_score = df["Total Marks"].max()
-    lowest_score = df["Total Marks"].min()
-
-    # ---------- DISPLAY METRICS ----------
-    col1, col2, col3 = st.columns(3)
-    col1.metric("📈 Class Average (%)", class_avg)
-    col2.metric("🏆 Highest Score", highest_score)
-    col3.metric("📉 Lowest Score", lowest_score)
-
-    # ---------- DISPLAY TABLE ----------
-    st.markdown("🧾 Student Performance Table")
-
-    # FIX: Instead of using .style inside st.dataframe, use st.data_editor or raw df
-    styled_df = df.style.background_gradient(subset=["Percentage"], cmap="YlGn").format({"Percentage": "{:.2f}%"})
-    st.write(styled_df)  # ✅ Works in all recent Streamlit versions
-
-else:
-    st.info("👆 Add a student above to see the performance dashboard.")
-
-# ---------- FOOTER ----------
-st.markdown("---")
-st.markdown("❤️Made by Monali Neog")
+    h
