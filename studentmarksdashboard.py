@@ -14,17 +14,8 @@ st.markdown("""
         .main {
             background-color: #f5f7fa;
         }
-        .stDataFrame {
-            border-radius: 10px;
-            overflow: hidden;
-        }
         h1, h2, h3 {
             color: #333333;
-        }
-        .metric-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
         }
         .stMetric {
             background: #ffffff;
@@ -39,7 +30,7 @@ st.markdown("""
 st.title("📘 Student Marks Dashboard")
 st.markdown("Add students and analyze their performance with class insights.")
 
-# ---------- SESSION STATE (to store data dynamically) ----------
+# ---------- SESSION STATE ----------
 if "df" not in st.session_state:
     st.session_state.df = pd.DataFrame(columns=["Name", "Maths", "Physics", "English"])
 
@@ -69,11 +60,10 @@ if submitted:
 df = st.session_state.df.copy()
 
 if not df.empty:
-    # Compute totals and percentage
+    # Calculate totals and grades
     df["Total Marks"] = df["Maths"] + df["Physics"] + df["English"]
     df["Percentage"] = (df["Total Marks"] / 300) * 100
 
-    # Grade assignment function
     def assign_grade(avg):
         if avg >= 90:
             return "A"
@@ -101,15 +91,14 @@ if not df.empty:
 
     # ---------- DISPLAY TABLE ----------
     st.markdown("🧾 Student Performance Table")
-    st.dataframe(
-        df.style.background_gradient(
-            subset=["Percentage"],
-            cmap="YlGn"
-        ).format({"Percentage": "{:.2f}%"})
-    )
+
+    # FIX: Instead of using .style inside st.dataframe, use st.data_editor or raw df
+    styled_df = df.style.background_gradient(subset=["Percentage"], cmap="YlGn").format({"Percentage": "{:.2f}%"})
+    st.write(styled_df)  # ✅ Works in all recent Streamlit versions
+
 else:
     st.info("👆 Add a student above to see the performance dashboard.")
 
 # ---------- FOOTER ----------
 st.markdown("---")
-st.markdown("Made by Monali Neog")
+st.markdown("❤️Made by Monali Neog")
